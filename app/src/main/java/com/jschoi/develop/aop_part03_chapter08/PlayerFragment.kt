@@ -9,6 +9,7 @@ import kotlin.math.abs
 
 class PlayerFragment : Fragment(R.layout.fragment_player) {
 
+    // TODO dummy video -
     private var binding: FragmentPlayerBinding? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
