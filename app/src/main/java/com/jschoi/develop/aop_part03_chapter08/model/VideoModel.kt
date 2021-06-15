@@ -1,4 +1,4 @@
-package com.jschoi.develop.aop_part03_chapter08
+package com.jschoi.develop.aop_part03_chapter08.model
 
 data class VideoModel(
     val description: String,

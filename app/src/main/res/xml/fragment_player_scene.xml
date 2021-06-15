@@ -5,8 +5,24 @@
     <Transition
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
-        motion:duration="1000">
-        <KeyFrameSet></KeyFrameSet>
+        motion:duration="300">
+        <KeyFrameSet>
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="10"
+                motion:motionTarget="@+id/bottomTitleTextView" />
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="10"
+                motion:motionTarget="@+id/bottomPlayerControlButton" />
+            <KeyPosition
+                motion:curveFit="linear"
+                motion:framePosition="10"
+                motion:keyPositionType="deltaRelative"
+                motion:motionTarget="@+id/playerView"
+                motion:percentWidth="1"
+                motion:percentX="1" />
+        </KeyFrameSet>
         <OnSwipe
             motion:touchAnchorId="@+id/mainContainerLayout"
             motion:touchAnchorSide="bottom" />
@@ -45,14 +61,6 @@
 
     <ConstraintSet android:id="@+id/end">
         <Constraint
-            android:id="@+id/playerView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            motion:layout_constraintBottom_toBottomOf="@id/mainContainerLayout"
-            motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintStart_toStartOf="@id/mainContainerLayout"
-            motion:layout_constraintTop_toTopOf="@id/mainContainerLayout" />
-        <Constraint
             android:id="@+id/mainContainerLayout"
             android:layout_width="0dp"
             android:layout_height="250dp"
@@ -67,5 +75,22 @@
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toBottomOf="@id/mainContainerLayout" />
+        <Constraint
+            android:id="@+id/playerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="@id/mainContainerLayout"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="@id/mainContainerLayout"
+            motion:layout_constraintTop_toTopOf="@id/mainContainerLayout" />
+        <Constraint
+            android:id="@+id/bottomPlayerControlButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:alpha="0"
+            motion:layout_constraintBottom_toBottomOf="@id/mainContainerLayout"
+            motion:layout_constraintEnd_toEndOf="@id/mainContainerLayout"
+            motion:layout_constraintTop_toTopOf="@id/mainContainerLayout" />
     </ConstraintSet>
 </MotionScene>

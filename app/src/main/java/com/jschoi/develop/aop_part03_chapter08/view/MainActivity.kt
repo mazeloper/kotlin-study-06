@@ -1,11 +1,15 @@
-package com.jschoi.develop.aop_part03_chapter08
+package com.jschoi.develop.aop_part03_chapter08.view
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jschoi.develop.aop_part03_chapter08.R
 import com.jschoi.develop.aop_part03_chapter08.adapter.VideoAdapter
 import com.jschoi.develop.aop_part03_chapter08.databinding.ActivityMainBinding
+import com.jschoi.develop.aop_part03_chapter08.dto.VideoDTO
+import com.jschoi.develop.aop_part03_chapter08.net.RetrofitClient
+import com.jschoi.develop.aop_part03_chapter08.net.VideoService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,7 +32,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(activityMainBinding.root)
 
         retrofit = RetrofitClient.getInstance()
-        videoAdapter = VideoAdapter()
+        videoAdapter = VideoAdapter(callback = { url, title ->
+            supportFragmentManager.fragments.find { it is PlayerFragment }?.let {
+                (it as PlayerFragment).play(url, title)
+            }
+        })
 
         activityMainBinding.mainRecyclerView.apply {
             adapter = videoAdapter
@@ -59,6 +67,7 @@ class MainActivity : AppCompatActivity() {
                 }
             })
     }
+
 
     override fun onDestroy() {
         mainBinding = null

@@ -1,5 +1,6 @@
-package com.jschoi.develop.aop_part03_chapter08
+package com.jschoi.develop.aop_part03_chapter08.net
 
+import com.jschoi.develop.aop_part03_chapter08.dto.VideoDTO
 import retrofit2.Call
 import retrofit2.http.GET
 

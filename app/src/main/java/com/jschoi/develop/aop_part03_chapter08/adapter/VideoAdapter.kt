@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.jschoi.develop.aop_part03_chapter08.VideoModel
+import com.jschoi.develop.aop_part03_chapter08.model.VideoModel
 import com.jschoi.develop.aop_part03_chapter08.databinding.ItemVideoBinding
 
-class VideoAdapter : ListAdapter<VideoModel, VideoAdapter.ViewHolder>(diffUtil) {
+class VideoAdapter(val callback: (String, String) -> Unit) :
+    ListAdapter<VideoModel, VideoAdapter.ViewHolder>(diffUtil) {
 
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<VideoModel>() {
@@ -33,6 +34,10 @@ class VideoAdapter : ListAdapter<VideoModel, VideoAdapter.ViewHolder>(diffUtil) 
             Glide.with(binding.thumbnailImageView.context)
                 .load(item.thumb)
                 .into(binding.thumbnailImageView)
+
+            binding.root.setOnClickListener {
+                callback(item.sources, item.title)
+            }
         }
     }
 

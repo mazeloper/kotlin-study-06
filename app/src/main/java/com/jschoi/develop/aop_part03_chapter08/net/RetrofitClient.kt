@@ -1,4 +1,4 @@
-package com.jschoi.develop.aop_part03_chapter08
+package com.jschoi.develop.aop_part03_chapter08.net
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.jschoi.develop.aop_part03_chapter08.CustomVideoMotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/playerMotionLayout"
     android:layout_width="match_parent"
@@ -10,25 +10,26 @@
         android:id="@+id/mainContainerLayout"
         android:layout_width="0dp"
         android:layout_height="250dp"
-        android:background="@android:color/holo_orange_light"
+        android:background="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/playerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/purple_700"
         app:layout_constraintBottom_toBottomOf="@id/mainContainerLayout"
         app:layout_constraintStart_toStartOf="@id/mainContainerLayout"
-        app:layout_constraintTop_toTopOf="@id/mainContainerLayout" />
+        app:layout_constraintTop_toTopOf="@id/mainContainerLayout"
+        app:resize_mode="fill" />
 
     <ImageView
         android:id="@+id/bottomPlayerControlButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_baseline_play_arrow_24"
         app:layout_constraintBottom_toBottomOf="@id/mainContainerLayout"
         app:layout_constraintEnd_toEndOf="@id/mainContainerLayout"
         app:layout_constraintTop_toTopOf="@id/mainContainerLayout" />
@@ -42,6 +43,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:singleLine="true"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/bottomPlayerControlButton"
         app:layout_constraintEnd_toStartOf="@id/bottomPlayerControlButton"
         app:layout_constraintStart_toEndOf="@id/playerView"
@@ -52,8 +54,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/white"
+        android:clipToPadding="false"
+        android:nestedScrollingEnabled="false"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mainContainerLayout" />
-</androidx.constraintlayout.motion.widget.MotionLayout>
+</com.jschoi.develop.aop_part03_chapter08.CustomVideoMotionLayout>
