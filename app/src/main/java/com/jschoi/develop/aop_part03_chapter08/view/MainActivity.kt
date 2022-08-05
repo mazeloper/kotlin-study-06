@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jschoi.develop.aop_part03_chapter08.ADLog
 import com.jschoi.develop.aop_part03_chapter08.R
 import com.jschoi.develop.aop_part03_chapter08.adapter.VideoAdapter
 import com.jschoi.develop.aop_part03_chapter08.databinding.ActivityMainBinding
@@ -49,10 +48,9 @@ class MainActivity : AppCompatActivity() {
         videoAdapter = VideoAdapter(callback = { url, title ->
             supportFragmentManager.fragments.find { it is PlayerFragment }?.let {
                 (it as PlayerFragment).play(url, title)
-                ///initFragment()
                 fragment.animation()
             }
-            binding.fragmentContainer.visibility = View.VISIBLE
+            // binding.fragmentContainer.visibility = View.VISIBLE
         })
     }
 

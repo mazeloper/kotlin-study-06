@@ -1,14 +1,12 @@
 package com.jschoi.develop.aop_part03_chapter08.view
 
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.transition.Visibility
-import android.transition.Visibility.MODE_OUT
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -30,7 +28,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
     private var binding: FragmentPlayerBinding? = null
     private lateinit var videoAdapter: VideoAdapter
     private lateinit var retrofit: Retrofit
-    private var player: SimpleExoPlayer? = null
+    private var player: ExoPlayer? = null
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
