@@ -3,30 +3,56 @@
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <Transition
+        android:id="@+id/init_motion"
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
         motion:duration="1000">
         <KeyFrameSet></KeyFrameSet>
     </Transition>
 
+    <!-- START -->
     <ConstraintSet android:id="@+id/start">
-        <Constraint
-            android:id="@+id/mainBottomNavigationView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            motion:layout_constraintBottom_toBottomOf="parent"
-            motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintStart_toStartOf="parent" />
+        <Constraint android:id="@+id/fragmentContainer">
+            <Layout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                motion:layout_constraintBottom_toBottomOf="parent"
+                motion:layout_constraintEnd_toEndOf="parent"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintTop_toTopOf="parent" />
+            <Transform android:translationY="57dp" />
+        </Constraint>
+
+        <Constraint android:id="@+id/mainBottomNavigationView">
+            <Layout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                motion:layout_constraintBottom_toBottomOf="parent"
+                motion:layout_constraintEnd_toEndOf="parent"
+                motion:layout_constraintStart_toStartOf="parent" />
+        </Constraint>
     </ConstraintSet>
 
+
+    <!-- END -->
     <ConstraintSet android:id="@+id/end">
-        <Constraint
-            android:id="@+id/mainBottomNavigationView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:translationY="56dp"
-            motion:layout_constraintBottom_toBottomOf="parent"
-            motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintStart_toStartOf="parent" />
+        <Constraint android:id="@+id/fragmentContainer">
+            <Layout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                motion:layout_constraintBottom_toBottomOf="parent"
+                motion:layout_constraintEnd_toEndOf="parent"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintTop_toTopOf="parent" />
+        </Constraint>
+        <Constraint android:id="@+id/mainBottomNavigationView">
+            <Layout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:translationY="56dp"
+                motion:layout_constraintBottom_toBottomOf="parent"
+                motion:layout_constraintEnd_toEndOf="parent"
+                motion:layout_constraintStart_toStartOf="parent" />
+        </Constraint>
     </ConstraintSet>
 </MotionScene>

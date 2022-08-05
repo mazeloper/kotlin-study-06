@@ -3,11 +3,12 @@ package com.jschoi.develop.aop_part03_chapter08
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
+import com.jschoi.develop.aop_part03_chapter08.view.MainActivity
+import kotlin.math.abs
 
 /**
  * Custom Motion Layout 작성이유
@@ -18,20 +19,18 @@ class CustomVideoMotionLayout(context: Context, attributeSet: AttributeSet? = nu
     MotionLayout(context, attributeSet) {
 
     init {
+
         setTransitionListener(object : TransitionListener {
-            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
-
-            }
-
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
             override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+                (context as MainActivity).findViewById<MotionLayout>(R.id.mainMotionLayout).progress = abs(p3)
             }
 
-            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+            override fun onTransitionCompleted(layout: MotionLayout, p1: Int) {
                 motionTouchStarted = false
             }
 
-            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
-            }
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
         })
     }
 
@@ -49,7 +48,6 @@ class CustomVideoMotionLayout(context: Context, attributeSet: AttributeSet? = nu
                 distanceX: Float,
                 distanceY: Float
             ): Boolean {
-
                 mainContainerLayout.getHitRect(hitRect)
                 return hitRect.contains(e1.x.toInt(), e1.y.toInt())
             }

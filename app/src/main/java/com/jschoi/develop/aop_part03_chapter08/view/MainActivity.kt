@@ -3,9 +3,8 @@ package com.jschoi.develop.aop_part03_chapter08.view
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jschoi.develop.aop_part03_chapter08.ADLog
 import com.jschoi.develop.aop_part03_chapter08.R
 import com.jschoi.develop.aop_part03_chapter08.adapter.VideoAdapter
 import com.jschoi.develop.aop_part03_chapter08.databinding.ActivityMainBinding
@@ -37,11 +36,22 @@ class MainActivity : AppCompatActivity() {
 
         fragment = PlayerFragment()
 
+        binding.mainMotionLayout.setTransitionListener(object : MotionLayout.TransitionListener {
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
+            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {}
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                motionLayout?.getConstraintSet(R.id.start)
+                    ?.setTranslationY(R.id.fragmentContainer, 0f)
+            }
+        })
+
         initAdapter()
         initRecycler()
         initFragment()
 
         getVideoList()
+
     }
 
     private fun initAdapter() {

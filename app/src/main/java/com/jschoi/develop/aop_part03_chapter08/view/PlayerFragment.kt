@@ -3,7 +3,9 @@ package com.jschoi.develop.aop_part03_chapter08.view
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.exoplayer2.MediaItem
@@ -11,6 +13,7 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.jschoi.develop.aop_part03_chapter08.ADLog
 import com.jschoi.develop.aop_part03_chapter08.R
 import com.jschoi.develop.aop_part03_chapter08.adapter.VideoAdapter
 import com.jschoi.develop.aop_part03_chapter08.databinding.FragmentPlayerBinding
@@ -29,13 +32,21 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
     private lateinit var retrofit: Retrofit
     private var player: SimpleExoPlayer? = null
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        ADLog.debug("onCreateView")
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ADLog.debug("onViewCreated")
 
         val fragmentPlayerBinding = FragmentPlayerBinding.bind(view)
         binding = fragmentPlayerBinding
-        initAnim()
 
         retrofit = RetrofitClient.getInstance()
 
@@ -65,7 +76,6 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
         player?.addListener(object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 super.onIsPlayingChanged(isPlaying)
-
                 if (isPlaying) {
                     bottomPlayerControlButton.setImageResource(R.drawable.ic_baseline_pause_24)
                 } else {
@@ -105,9 +115,8 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
             })
     }
 
-    fun play(url: String, title: String) {
+    fun play(url: String? = null, title: String? = null) {
         context?.let {
-            // url -> DataSource -> MediaSource -> Player
             val dataSourceFactory = DefaultDataSourceFactory(it)
             val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(MediaItem.fromUri(Uri.parse(url)))
@@ -119,7 +128,8 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
         initAnim()
     }
 
-    fun initAnim() {
+    private fun initAnim() {
+        ADLog.debug("initAnim")
         binding.playerMotionLayout.transitionToEnd()
     }
 
