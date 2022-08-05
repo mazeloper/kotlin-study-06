@@ -1,10 +1,12 @@
 package com.jschoi.develop.aop_part03_chapter08.view
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.transition.Visibility
+import android.transition.Visibility.MODE_OUT
 import android.util.Log
 import android.view.View
-import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.exoplayer2.MediaItem
@@ -22,7 +24,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import kotlin.math.abs
 
 class PlayerFragment : Fragment(R.layout.fragment_player) {
 
@@ -40,7 +41,6 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
 
         retrofit = RetrofitClient.getInstance()
 
-        initMotionLayoutEvent(fragmentPlayerBinding)
         initRecyclerView(fragmentPlayerBinding)
         initPlayer(fragmentPlayerBinding)
         initControlButton(fragmentPlayerBinding)
@@ -48,35 +48,6 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
         getVideoList()
     }
 
-    private fun initMotionLayoutEvent(fragmentPlayerBinding: FragmentPlayerBinding) {
-        fragmentPlayerBinding.playerMotionLayout.setTransitionListener(object :
-            MotionLayout.TransitionListener {
-            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
-            }
-
-            override fun onTransitionChange(
-                motionLayout: MotionLayout?,
-                startId: Int,
-                endId: Int,
-                progress: Float
-            ) {
-                binding?.let {
-                    // 프래그먼트 붙힌 액티비티
-                    (activity as MainActivity).also { mainActivity ->
-                        // 프래그먼트 모션레이아웃 움직일때 메인모션레이아웃도 같이 이동하게
-                        mainActivity.findViewById<MotionLayout>(R.id.mainMotionLayout).progress =
-                            abs(progress)
-                    }
-                }
-            }
-
-            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
-            }
-
-            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
-            }
-        })
-    }
 
     private fun initRecyclerView(fragmentPlayerBinding: FragmentPlayerBinding) {
         videoAdapter = VideoAdapter(callback = { url, title ->
@@ -95,7 +66,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
         }
         fragmentPlayerBinding.playerView.player = player
         binding?.let {
-            player?.addListener(object : Player.EventListener {
+            player?.addListener(object : Player.Listener {
                 override fun onIsPlayingChanged(isPlaying: Boolean) {
                     super.onIsPlayingChanged(isPlaying)
 
@@ -106,6 +77,16 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
                     }
                 }
             })
+        }
+    }
+
+    fun animation() {
+        binding?.playerMotionLayout ?: return
+        with(binding?.playerMotionLayout!!) {
+            post {
+                transitionToEnd {
+                }
+            }
         }
     }
 
@@ -150,8 +131,6 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
             player?.play()
         }
         binding?.let {
-            // motionLayout end 결과 값으로
-            it.playerMotionLayout.transitionToEnd()
             it.bottomTitleTextView.text = title
         }
     }
