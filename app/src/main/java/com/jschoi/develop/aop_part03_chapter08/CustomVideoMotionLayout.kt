@@ -70,7 +70,7 @@ class CustomVideoMotionLayout(context: Context, attributeSet: AttributeSet? = nu
             mainContainerLayout.getHitRect(hitRect)
             // 모션레이아웃 안에서 일어난 이벤트이냐
             motionTouchStarted = hitRect.contains(event.x.toInt(), event.y.toInt())
-            Log.d("TAG", "모션레이아웃에서 이벤트가 발생 ${if(motionTouchStarted) "하였습니다" else "되지않았습니다"}")
+            ADLog.information("모션레이아웃에서 이벤트가 발생 ${if (motionTouchStarted) "하였습니다" else "되지않았습니다"}")
         }
         return super.onTouchEvent(event) && motionTouchStarted
     }

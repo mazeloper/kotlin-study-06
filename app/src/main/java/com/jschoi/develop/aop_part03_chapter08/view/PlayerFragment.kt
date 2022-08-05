@@ -4,7 +4,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.exoplayer2.MediaItem
@@ -22,7 +21,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import kotlin.math.abs
 
 class PlayerFragment : Fragment(R.layout.fragment_player) {
 
@@ -37,78 +35,49 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
 
         val fragmentPlayerBinding = FragmentPlayerBinding.bind(view)
         binding = fragmentPlayerBinding
+        initAnim()
 
         retrofit = RetrofitClient.getInstance()
 
         // initMotionLayoutEvent(fragmentPlayerBinding)
-        initRecyclerView(fragmentPlayerBinding)
-        initPlayer(fragmentPlayerBinding)
-        initControlButton(fragmentPlayerBinding)
+        initRecyclerView()
+        initPlayer()
+        initControlButton()
 
         getVideoList()
     }
 
-    private fun initMotionLayoutEvent(fragmentPlayerBinding: FragmentPlayerBinding) {
-        fragmentPlayerBinding.playerMotionLayout.setTransitionListener(object :
-            MotionLayout.TransitionListener {
-            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
-            }
-
-            override fun onTransitionChange(
-                motionLayout: MotionLayout?,
-                startId: Int,
-                endId: Int,
-                progress: Float
-            ) {
-                binding.let {
-                    // 프래그먼트 붙힌 액티비티
-                    (activity as MainActivity).also { mainActivity ->
-                        // 프래그먼트 모션레이아웃 움직일때 메인모션레이아웃도 같이 이동하게
-                        mainActivity.findViewById<MotionLayout>(R.id.mainMotionLayout).progress =
-                            abs(progress)
-                    }
-                }
-            }
-
-            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
-            }
-
-            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
-            }
-        })
-    }
-
-    private fun initRecyclerView(fragmentPlayerBinding: FragmentPlayerBinding) {
+    private fun initRecyclerView() = with(binding) {
         videoAdapter = VideoAdapter(callback = { url, title ->
             play(url, title)
         })
 
-        fragmentPlayerBinding.fragmentRecyclerView.apply {
+        binding.fragmentRecyclerView.apply {
             adapter = videoAdapter
             layoutManager = LinearLayoutManager(context)
         }
     }
 
-    private fun initPlayer(fragmentPlayerBinding: FragmentPlayerBinding) {
+    private fun initPlayer() = with(binding) {
         player = SimpleExoPlayer.Builder(requireContext()).build()
 
-        fragmentPlayerBinding.playerView.player = player
+        playerView.player = player
         player?.addListener(object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 super.onIsPlayingChanged(isPlaying)
 
                 if (isPlaying) {
-                    binding.bottomPlayerControlButton.setImageResource(R.drawable.ic_baseline_pause_24)
+                    bottomPlayerControlButton.setImageResource(R.drawable.ic_baseline_pause_24)
                 } else {
-                    binding.bottomPlayerControlButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+                    bottomPlayerControlButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
                 }
             }
         })
     }
 
-    private fun initControlButton(fragmentPlayerBinding: FragmentPlayerBinding) {
-        fragmentPlayerBinding.bottomPlayerControlButton.setOnClickListener {
-            val player = this.player ?: return@setOnClickListener
+    private fun initControlButton() = with(binding) {
+        bottomPlayerControlButton.setOnClickListener {
+            val player = player ?: return@setOnClickListener
 
             if (player.isPlaying) {
                 player.pause()
@@ -146,11 +115,11 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
             player?.prepare()
             player?.play()
         }
-        initAnim(title)
+        binding.bottomTitleTextView.text = title
+        initAnim()
     }
 
-    private fun initAnim(title: String) {
-        binding.bottomTitleTextView.text = title
+    fun initAnim() {
         binding.playerMotionLayout.transitionToEnd()
     }
 

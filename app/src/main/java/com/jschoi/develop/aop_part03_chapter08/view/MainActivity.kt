@@ -3,7 +3,9 @@ package com.jschoi.develop.aop_part03_chapter08.view
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jschoi.develop.aop_part03_chapter08.ADLog
 import com.jschoi.develop.aop_part03_chapter08.R
 import com.jschoi.develop.aop_part03_chapter08.adapter.VideoAdapter
 import com.jschoi.develop.aop_part03_chapter08.databinding.ActivityMainBinding
@@ -21,6 +23,7 @@ import retrofit2.Retrofit
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var fragment: PlayerFragment
     private lateinit var retrofit: Retrofit
     private lateinit var videoAdapter: VideoAdapter
 
@@ -32,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(activityMainBinding.root)
         retrofit = RetrofitClient.getInstance()
 
+        fragment = PlayerFragment()
+
         initAdapter()
         initRecycler()
         initFragment()
@@ -41,9 +46,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initAdapter() {
         videoAdapter = VideoAdapter(callback = { url, title ->
-            supportFragmentManager.fragments.find { it is PlayerFragment }?.let {
-                (it as PlayerFragment).play(url, title)
-            }
+            fragment.play(url, title)
         })
     }
 
@@ -56,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, PlayerFragment())
+            .replace(R.id.fragmentContainer, fragment)
             .commit()
     }
 
