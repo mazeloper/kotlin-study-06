@@ -146,11 +146,12 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
             player?.prepare()
             player?.play()
         }
-        binding.let {
-            // motionLayout end 결과 값으로
-            it.playerMotionLayout.transitionToEnd()
-            it.bottomTitleTextView.text = title
-        }
+        initAnim(title)
+    }
+
+    private fun initAnim(title: String) {
+        binding.bottomTitleTextView.text = title
+        binding.playerMotionLayout.transitionToEnd()
     }
 
     override fun onPause() {
