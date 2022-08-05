@@ -26,7 +26,7 @@ import kotlin.math.abs
 
 class PlayerFragment : Fragment(R.layout.fragment_player) {
 
-    private var binding: FragmentPlayerBinding? = null
+    private lateinit var binding: FragmentPlayerBinding
     private lateinit var videoAdapter: VideoAdapter
     private lateinit var retrofit: Retrofit
     private var player: SimpleExoPlayer? = null
@@ -40,7 +40,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
 
         retrofit = RetrofitClient.getInstance()
 
-        initMotionLayoutEvent(fragmentPlayerBinding)
+        // initMotionLayoutEvent(fragmentPlayerBinding)
         initRecyclerView(fragmentPlayerBinding)
         initPlayer(fragmentPlayerBinding)
         initControlButton(fragmentPlayerBinding)
@@ -60,7 +60,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
                 endId: Int,
                 progress: Float
             ) {
-                binding?.let {
+                binding.let {
                     // 프래그먼트 붙힌 액티비티
                     (activity as MainActivity).also { mainActivity ->
                         // 프래그먼트 모션레이아웃 움직일때 메인모션레이아웃도 같이 이동하게
@@ -90,23 +90,20 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
     }
 
     private fun initPlayer(fragmentPlayerBinding: FragmentPlayerBinding) {
-        context?.let {
-            player = SimpleExoPlayer.Builder(it).build()
-        }
-        fragmentPlayerBinding.playerView.player = player
-        binding?.let {
-            player?.addListener(object : Player.EventListener {
-                override fun onIsPlayingChanged(isPlaying: Boolean) {
-                    super.onIsPlayingChanged(isPlaying)
+        player = SimpleExoPlayer.Builder(requireContext()).build()
 
-                    if (isPlaying) {
-                        it.bottomPlayerControlButton.setImageResource(R.drawable.ic_baseline_pause_24)
-                    } else {
-                        it.bottomPlayerControlButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
-                    }
+        fragmentPlayerBinding.playerView.player = player
+        player?.addListener(object : Player.Listener {
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                super.onIsPlayingChanged(isPlaying)
+
+                if (isPlaying) {
+                    binding.bottomPlayerControlButton.setImageResource(R.drawable.ic_baseline_pause_24)
+                } else {
+                    binding.bottomPlayerControlButton.setImageResource(R.drawable.ic_baseline_play_arrow_24)
                 }
-            })
-        }
+            }
+        })
     }
 
     private fun initControlButton(fragmentPlayerBinding: FragmentPlayerBinding) {
@@ -149,7 +146,7 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
             player?.prepare()
             player?.play()
         }
-        binding?.let {
+        binding.let {
             // motionLayout end 결과 값으로
             it.playerMotionLayout.transitionToEnd()
             it.bottomTitleTextView.text = title
@@ -163,9 +160,6 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
-        super.onDestroyView()
-
         player?.release()
     }
 }

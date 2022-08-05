@@ -54,4 +54,5 @@ dependencies {
     // ExoPlayer
     implementation 'com.google.android.exoplayer:exoplayer:2.13.3'
 
+    implementation "com.github.vkay94:DoubleTapPlayerView:1.0.4"
 }

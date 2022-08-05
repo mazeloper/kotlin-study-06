@@ -20,34 +20,44 @@ import retrofit2.Retrofit
  */
 class MainActivity : AppCompatActivity() {
 
-    private var mainBinding: ActivityMainBinding? = null
+    private lateinit var binding: ActivityMainBinding
     private lateinit var retrofit: Retrofit
     private lateinit var videoAdapter: VideoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
-        mainBinding = activityMainBinding
+        binding = activityMainBinding
 
         setContentView(activityMainBinding.root)
-
         retrofit = RetrofitClient.getInstance()
+
+        initAdapter()
+        initRecycler()
+        initFragment()
+
+        getVideoList()
+    }
+
+    private fun initAdapter() {
         videoAdapter = VideoAdapter(callback = { url, title ->
             supportFragmentManager.fragments.find { it is PlayerFragment }?.let {
                 (it as PlayerFragment).play(url, title)
             }
         })
+    }
 
-        activityMainBinding.mainRecyclerView.apply {
+    private fun initRecycler() {
+        binding.mainRecyclerView.apply {
             adapter = videoAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
         }
+    }
 
+    private fun initFragment() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, PlayerFragment())
             .commit()
-
-        getVideoList()
     }
 
     private fun getVideoList() {
@@ -66,11 +76,5 @@ class MainActivity : AppCompatActivity() {
                     Log.e("TAG", "ERROR MESSAGE : ${t.message}")
                 }
             })
-    }
-
-
-    override fun onDestroy() {
-        mainBinding = null
-        super.onDestroy()
     }
 }

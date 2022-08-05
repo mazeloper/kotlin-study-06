@@ -15,14 +15,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.exoplayer2.ui.PlayerView
+    <com.github.vkay94.dtpv.DoubleTapPlayerView
         android:id="@+id/playerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:dtpv_controller="@+id/youtube_overlay"
         app:layout_constraintBottom_toBottomOf="@id/mainContainerLayout"
         app:layout_constraintStart_toStartOf="@id/mainContainerLayout"
         app:layout_constraintTop_toTopOf="@id/mainContainerLayout"
         app:resize_mode="fill" />
+
+    <com.github.vkay94.dtpv.youtube.YouTubeOverlay
+        android:id="@+id/youtube_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/playerView"
+        app:layout_constraintEnd_toEndOf="@id/playerView"
+        app:layout_constraintStart_toStartOf="@id/playerView"
+        app:layout_constraintTop_toTopOf="@id/playerView"
+        app:yt_playerView="@+id/playerView" />
+
 
     <ImageView
         android:id="@+id/bottomPlayerControlButton"
