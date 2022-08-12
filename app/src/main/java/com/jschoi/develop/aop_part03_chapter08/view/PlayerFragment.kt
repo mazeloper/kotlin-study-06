@@ -142,7 +142,6 @@ class PlayerFragment : Fragment(R.layout.fragment_player) {
                 override fun onVideoSizeChanged(videoSize: VideoSize) {
                     super.onVideoSizeChanged(videoSize)
                     ADLog.error("###")
-                    mSurfaceView?.set
                 }
             })
         }
