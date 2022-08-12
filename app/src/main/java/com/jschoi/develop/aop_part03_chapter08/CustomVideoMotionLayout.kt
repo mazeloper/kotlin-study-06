@@ -8,6 +8,8 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
+import com.jschoi.develop.aop_part03_chapter08.view.MainActivity
+import kotlin.math.abs
 
 /**
  * Custom Motion Layout 작성이유
@@ -20,10 +22,14 @@ class CustomVideoMotionLayout(context: Context, attributeSet: AttributeSet? = nu
     init {
         setTransitionListener(object : TransitionListener {
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
-
+                ADLog.warning("")
             }
 
             override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+                (context as MainActivity).also { mainActivity ->
+                    mainActivity.findViewById<MotionLayout>(R.id.mainMotionLayout).progress =
+                        abs(progress)
+                }
             }
 
             override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
@@ -68,9 +74,7 @@ class CustomVideoMotionLayout(context: Context, attributeSet: AttributeSet? = nu
         }
         if (motionTouchStarted.not()) {
             mainContainerLayout.getHitRect(hitRect)
-            // 모션레이아웃 안에서 일어난 이벤트이냐
             motionTouchStarted = hitRect.contains(event.x.toInt(), event.y.toInt())
-            Log.d("TAG", "모션레이아웃에서 이벤트가 발생 ${if(motionTouchStarted) "하였습니다" else "되지않았습니다"}")
         }
         return super.onTouchEvent(event) && motionTouchStarted
     }
